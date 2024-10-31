@@ -1,6 +1,8 @@
 package com.vincenzoracca.vr;
 
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +18,8 @@ import java.util.UUID;
 @SpringBootApplication
 public class VrApplication {
 
+	private static final Logger log = LoggerFactory.getLogger(VrApplication.class);
+
 	@Autowired
 	Environment env;
 
@@ -25,7 +29,8 @@ public class VrApplication {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("spring.threads.virtual.enabled=" + env.getProperty("spring.threads.virtual.enabled"));
+		var vrEnabled = env.getProperty("spring.threads.virtual.enabled");
+		log.info("spring.threads.virtual.enabled={}", vrEnabled);
 	}
 
 	@RestController
@@ -33,6 +38,7 @@ public class VrApplication {
 
 		@GetMapping
 		public ResponseEntity<List<Book>> findAll() throws InterruptedException {
+			log.info("Call findAll");
 			var books = new ArrayList<Book>();
 			Thread.sleep(500L);
 			for(int i = 0; i < 10; i++) {
