@@ -32,8 +32,9 @@ public class VrApplication {
 	public class MockApi {
 
 		@GetMapping
-		public ResponseEntity<List<Book>> findAll() {
+		public ResponseEntity<List<Book>> findAll() throws InterruptedException {
 			var books = new ArrayList<Book>();
+			Thread.sleep(500L);
 			for(int i = 0; i < 10; i++) {
 				books.add(new Book(i, UUID.randomUUID().toString()));
 			}
