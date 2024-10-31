@@ -1,7 +1,10 @@
 package com.vincenzoracca.vr;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +16,16 @@ import java.util.UUID;
 @SpringBootApplication
 public class VrApplication {
 
+	@Autowired
+	Environment env;
+
 	public static void main(String[] args) {
 		SpringApplication.run(VrApplication.class, args);
+	}
+
+	@PostConstruct
+	public void init() {
+		System.out.println("spring.threads.virtual.enabled=" + env.getProperty("spring.threads.virtual.enabled"));
 	}
 
 	@RestController
